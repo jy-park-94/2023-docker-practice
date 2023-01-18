@@ -10,10 +10,7 @@ COPY . .
 
 EXPOSE 80
 
-VOLUME [ "/app/feedback" ]
+# Volume (Anonymous or Named)
+VOLUME ["/app/feedback"]
 
-CMD ["node", "server.js"]
-
-
-
-
+CMD [ "npm", "start" ]
