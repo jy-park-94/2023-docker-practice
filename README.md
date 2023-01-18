@@ -1,5 +1,9 @@
 # Introduction to Docker
 
+## Reference
+
+- Docker & Kubernetes: The Practical Guide [2023 Edition] by Maximilian Schwarzmuller
+
 ## What is Docker?
 
 - A tool that creates and manages containers.
@@ -178,12 +182,35 @@ CMD ["node", "server.js"]
 - Define in `Dockerfile`
 
   ```Docker
-  VOLUME ["TARGET_FOLDER_IN_CONTAINER"]
+  VOLUME ["TARGET_FOLDER_IN_CONTAINER"] # Anonymous
   ```
 
 - Anonymous Volumes
   - Automatically matched somewhere we don't know by Docker.
-  - Automatically removed when the container is stopped.
+  - Automatically removed when the container is removed.
 - Named Volumes
   - Explictly matched **known folders** we know.
   - **Keep the folder regardless the container is stopped.**
+  - Add `-v [FOLDER_IN_HOST]:[FOLDER_IN_CONTAINER]` flag when running the container.
+  - We still don't know where's the actual volumes are in our system.
+
+### Bind Mounts
+
+- Explictly define a path on host machine.
+
+  - Good for persistent, editable data.
+  - Affects on containers.
+  - Add `-v [ABSOLUTE_PATH_IN_HOST]:[FOLDER_IN_CONTAINER]` flag when running the container.
+
+- How can we prevent overwriting?
+  - Add anonymous volumes for certain folders.
+  ```
+  docker run -d -t [TAG_FOR_CONTAINER] \
+    -v [ABSOLUTE_PATH_IN_HOST]:[FOLDER_IN_CONTAINER]
+    -v [FOLDER_NOT_TO_OVERWRITE]
+    [IMAGE_TO_RUN]
+  ```
+
+# Read only volumes
+
+- Add `-v [ABSOLUTE_PATH_IN_HOST]:[FOLDER_IN_CONTAINER]:ro` flag when running the container.
